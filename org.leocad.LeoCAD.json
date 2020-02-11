@@ -19,23 +19,31 @@
             "name": "leocad",
             "buildsystem": "qmake",
             "config-opts": [
-            	"INSTALL_PREFIX=/app"
+                "LDRAW_LIBRARY_PATH=/app/share/leocad",
+                "DISABLE_UPDATE_CHECK=1",
+                "INSTALL_PREFIX=/app"
             ],
             "sources": [
-				{
-					"type": "git",
-					"url": "https://github.com/leozide/leocad.git",
-					"tag": "v19.07.1",
-					"commit": "6c7291b919a9128518c682a706fb53399feb6f81"
+		{
+		    "type": "git",
+		    "url": "https://github.com/leozide/leocad.git",
+		    "tag": "v19.07.1",
+		    "commit": "6c7291b919a9128518c682a706fb53399feb6f81"
                 },
                 {
                     "type": "patch",
                     "path": "appdata.patch"
+                },
+                {
+                    "type": "archive",
+                    "url": "https://github.com/leozide/leocad/releases/download/v18.02/Library-Linux-11494.zip",
+                    "sha256": "5c496fd973a7d8cb4f2b224b2b9efcbd44c4843ff0c47c6d65d51abc4ed7678b"
                 }
             ],
             "post-install": [
                 "mkdir -p /app/share/icons/hicolor/scalable/apps",
-                "cp /app/share/icons/hicolor/scalable/mimetypes/application-vnd.leocad.svg /app/share/icons/hicolor/scalable/apps/leocad.svg"
+                "cp /app/share/icons/hicolor/scalable/mimetypes/application-vnd.leocad.svg /app/share/icons/hicolor/scalable/apps/leocad.svg",
+                "install -D library.bin ${FLATPAK_DEST}/share/leocad/library.bin"
             ]
         }
     ]

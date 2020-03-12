@@ -11,8 +11,7 @@
         "--device=dri",
         "--share=ipc",
         "--socket=x11",
-        "--filesystem=home",
-        "--filesystem=xdg-config/kdeglobals:ro"
+        "--filesystem=home"
     ],
     "modules": [
         {

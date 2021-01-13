@@ -28,8 +28,8 @@
 		{
 		    "type": "git",
 		    "url": "https://github.com/leozide/leocad.git",
-		    "tag": "v19.07.1",
-		    "commit": "6c7291b919a9128518c682a706fb53399feb6f81"
+		    "tag": "v21.01",
+		    "commit": "8f30690ee22ba265defc1409d289547e060f911e"
                 },
                 {
                     "type": "patch",
@@ -37,8 +37,8 @@
                 },
                 {
                     "type": "archive",
-                    "url": "https://github.com/leozide/leocad/releases/download/v19.07.1/Library-Linux-14384.zip",
-                    "sha256": "6bec1e45b464545fab866fcf7842d7e659521d418d7e7391f5f5cf574a4bd4e8"
+                    "url": "https://github.com/leozide/leocad/releases/download/v21.01/Library-20.03.zip",
+                    "sha256": "88d6d28b3a494a15ae63e984c1e732e28362fabc2e145ffab828fed2eb5e3632"
                 }
             ],
             "post-install": [

@@ -1,26 +1,12 @@
 diff --git a/tools/setup/leocad.appdata.xml b/tools/setup/leocad.appdata.xml
-index 249db16..bd357cf 100644
+index 0df65d1..c1d5f25 100644
 --- a/tools/setup/leocad.appdata.xml
 +++ b/tools/setup/leocad.appdata.xml
-@@ -1,8 +1,9 @@
- <?xml version="1.0" encoding="UTF-8"?>
- <component type="desktop-application">
--	<id>leocad</id>
--	<metadata_license>GPL-2.0</metadata_license>
-+	<id>org.leocad.LeoCAD</id>
-+	<metadata_license>CC0-1.0</metadata_license>
- 	<project_license>GPL-2.0</project_license>
-+	<content_rating type="oars-1.1" />
- 	<name>LeoCAD</name>
- 	<summary>Design virtual models you can build with LEGO bricks</summary>
- 	<description>
-@@ -18,4 +19,7 @@
- 	<provides>
+@@ -20,6 +20,7 @@
  		<id>leocad.desktop</id>
  	</provides>
--</component>
-\ No newline at end of file
-+	<releases>
-+		<release version="19.07.1" date="2019-07-14" />
-+	</releases>
-+</component>
+ 	<releases>
++		<release version="21.01" date="2021-01-12" />
+ 		<release version="19.07.1" date="2019-07-14" />
+ 	</releases>
+ </component>

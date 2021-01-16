@@ -1,22 +1,21 @@
+commit 1b0a47f692fa788166b065f3105085660436f5ef
+Author: Leonardo Zide <leozide@gmail.com>
+Date:   Tue Jan 12 18:29:11 2021 -0800
+
+    Fixed aarch compile error.
+
 diff --git a/common/lc_context.cpp b/common/lc_context.cpp
-index 5f1bca4..08f18fa 100644
+index 5f1bca4..ac4adfb 100644
 --- a/common/lc_context.cpp
 +++ b/common/lc_context.cpp
-@@ -11,6 +11,7 @@
- #include "lc_viewsphere.h"
- #include "lc_stringcache.h"
- #include "lc_partselectionwidget.h"
-+#include <GL/gl.h>
- #include <QOpenGLFunctions_3_2_Core>
+@@ -336,8 +336,10 @@ void lcContext::SetOffscreenContext()
  
- #ifdef LC_OPENGLES
-diff --git a/qt/lc_qpreferencesdialog.cpp b/qt/lc_qpreferencesdialog.cpp
-index c6052ec..48e9531 100644
---- a/qt/lc_qpreferencesdialog.cpp
-+++ b/qt/lc_qpreferencesdialog.cpp
-@@ -1,3 +1,5 @@
-+#include <GL/gl.h>
-+
- #include "lc_global.h"
- #include "lc_qpreferencesdialog.h"
- #include "ui_lc_qpreferencesdialog.h"
+ void lcContext::SetDefaultState()
+ {
++#ifndef LC_OPENGLES
+ 	if (QSurfaceFormat::defaultFormat().samples() > 1)
+ 		glEnable(GL_LINE_SMOOTH);
++#endif
+ 
+ 	glEnable(GL_DEPTH_TEST);
+ 	glDepthFunc(GL_LEQUAL);

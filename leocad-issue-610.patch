@@ -1,0 +1,147 @@
+commit 30dc625925601f6766cf99fbc1e51bf6e44315e7
+Author: Leonardo <leozide@gmail.com>
+Date:   Thu Jan 28 12:10:16 2021 -0800
+
+    Workaround for a Qt bug recreating QApplication. Fixes #610.
+    
+    (backported)
+    
+    Signed-off-by: Hubert Figuière <hub@figuiere.net>
+
+diff --git a/common/lc_application.cpp b/common/lc_application.cpp
+index b67d6011..80e5cc99 100644
+--- a/common/lc_application.cpp
++++ b/common/lc_application.cpp
+@@ -143,10 +143,6 @@ lcApplication::lcApplication(int& Argc, char** Argv)
+ 	: QApplication(Argc, Argv)
+ {
+ 	setApplicationDisplayName(QLatin1String("LeoCAD"));
+-	setOrganizationDomain(QLatin1String("leocad.org"));
+-	setOrganizationName(QLatin1String("LeoCAD Software"));
+-	setApplicationName(QLatin1String("LeoCAD"));
+-	setApplicationVersion(QLatin1String(LC_VERSION_TEXT));
+ 
+ 	gApplication = this;
+ 	mDefaultStyle = style()->objectName();
+@@ -319,6 +315,9 @@ bool lcApplication::LoadPartsLibrary(const QList<QPair<QString, bool>>& LibraryP
+ 
+ lcCommandLineOptions lcApplication::ParseCommandLineOptions()
+ {
++	lcPreferences Preferences;
++	Preferences.LoadDefaults();
++
+ 	lcCommandLineOptions Options;
+ 
+ 	Options.ParseOK = true;
+@@ -335,10 +334,12 @@ lcCommandLineOptions lcApplication::ParseCommandLineOptions()
+ 	Options.SetZPlanes = false;
+ 	Options.SetFadeStepsColor = false;
+ 	Options.SetHighlightColor = false;
+-	Options.FadeSteps = mPreferences.mFadeSteps;
+-	Options.ImageHighlight = mPreferences.mHighlightNewParts;
++	Options.FadeSteps = Preferences.mFadeSteps;
++	Options.ImageHighlight = Preferences.mHighlightNewParts;
+ 	Options.ImageWidth = lcGetProfileInt(LC_PROFILE_IMAGE_WIDTH);
+ 	Options.ImageHeight = lcGetProfileInt(LC_PROFILE_IMAGE_HEIGHT);
++	Options.ShadingMode = Preferences.mShadingMode;
++	Options.LineWidth = Preferences.mLineWidth;
+ 	Options.AASamples = lcGetProfileInt(LC_PROFILE_ANTIALIASING_SAMPLES);
+ 	Options.StudLogo = lcGetProfileInt(LC_PROFILE_STUD_LOGO);
+ 	Options.ImageStart = 0;
+@@ -350,8 +351,8 @@ lcCommandLineOptions lcApplication::ParseCommandLineOptions()
+ 	Options.FoV = 0.0f;
+ 	Options.ZPlanes = lcVector2(0.0f, 0.0f);
+ 	Options.Viewpoint = lcViewpoint::Count;
+-	Options.FadeStepsColor = mPreferences.mFadeStepsColor;
+-	Options.HighlightColor = mPreferences.mHighlightNewPartsColor;
++	Options.FadeStepsColor = Preferences.mFadeStepsColor;
++	Options.HighlightColor = Preferences.mHighlightNewPartsColor;
+ 
+ 	QStringList Arguments = arguments();
+ 
+@@ -607,13 +608,13 @@ lcCommandLineOptions lcApplication::ParseCommandLineOptions()
+ 			if (ParseString(ShadingString, true))
+ 			{
+ 				if (ShadingString == QLatin1String("wireframe"))
+-					mPreferences.mShadingMode = lcShadingMode::Wireframe;
++					Options.ShadingMode = lcShadingMode::Wireframe;
+ 				else if (ShadingString == QLatin1String("flat"))
+-					mPreferences.mShadingMode = lcShadingMode::Flat;
++					Options.ShadingMode = lcShadingMode::Flat;
+ 				else if (ShadingString == QLatin1String("default"))
+-					mPreferences.mShadingMode = lcShadingMode::DefaultLights;
++					Options.ShadingMode = lcShadingMode::DefaultLights;
+ 				else if (ShadingString == QLatin1String("full"))
+-					mPreferences.mShadingMode = lcShadingMode::Full;
++					Options.ShadingMode = lcShadingMode::Full;
+ 				else
+ 				{
+ 					Options.StdErr += tr("Invalid parameter value specified for the '%1' option: '%2'.\n").arg(Option, ShadingString);
+@@ -622,7 +623,7 @@ lcCommandLineOptions lcApplication::ParseCommandLineOptions()
+ 			}
+ 		}
+ 		else if (Option == QLatin1String("--line-width"))
+-			ParseFloat(mPreferences.mLineWidth, 0.0f, 10.0f);
++			ParseFloat(Options.LineWidth, 0.0f, 10.0f);
+ 		else if (Option == QLatin1String("--aa-samples"))
+ 		{
+ 			if (ParseInteger(Options.AASamples, 1, 8) && Options.AASamples != 1 && Options.AASamples != 2 && Options.AASamples != 4 && Options.AASamples != 8)
+@@ -809,6 +810,9 @@ lcStartupMode lcApplication::Initialize(const QList<QPair<QString, bool>>& Libra
+ 			StdErr << Message << endl;
+ 	}
+ 
++	mPreferences.mShadingMode = Options.ShadingMode;
++	mPreferences.mLineWidth = Options.LineWidth;
++
+ 	if (!SaveAndExit)
+ 		gMainWindow->CreateWidgets();
+ 
+diff --git a/common/lc_application.h b/common/lc_application.h
+index e4b7f845..665eb223 100644
+--- a/common/lc_application.h
++++ b/common/lc_application.h
+@@ -95,6 +95,8 @@ struct lcCommandLineOptions
+ 	int ImageWidth;
+ 	int ImageHeight;
+ 	int AASamples;
++	lcShadingMode ShadingMode;
++	float LineWidth;
+ 	int StudLogo;
+ 	int ImageStart;
+ 	int ImageEnd;
+@@ -134,7 +136,7 @@ public:
+ 	~lcApplication();
+ 
+ 	void SetProject(Project* Project);
+-	lcCommandLineOptions ParseCommandLineOptions();
++	static lcCommandLineOptions ParseCommandLineOptions();
+ 	lcStartupMode Initialize(const QList<QPair<QString, bool>>& LibraryPaths);
+ 	void Shutdown();
+ 	void ShowPreferencesDialog();
+diff --git a/qt/qtmain.cpp b/qt/qtmain.cpp
+index 2e980383..a38dd010 100644
+--- a/qt/qtmain.cpp
++++ b/qt/qtmain.cpp
+@@ -123,8 +123,8 @@ static void lcRegisterShellFileTypes()
+ 
+ static void lcInitializeSurfaceFormat(int argc, char* argv[])
+ {
+-	lcApplication Application(argc, argv);
+-	const lcCommandLineOptions Options = Application.ParseCommandLineOptions();
++	QCoreApplication Application(argc, argv);
++	const lcCommandLineOptions Options = lcApplication::ParseCommandLineOptions();
+ 
+ 	if (Options.ParseOK && Options.AASamples > 1)
+ 	{
+@@ -136,6 +136,11 @@ static void lcInitializeSurfaceFormat(int argc, char* argv[])
+ 
+ int main(int argc, char *argv[])
+ {
++	QCoreApplication::setOrganizationDomain(QLatin1String("leocad.org"));
++	QCoreApplication::setOrganizationName(QLatin1String("LeoCAD Software"));
++	QCoreApplication::setApplicationName(QLatin1String("LeoCAD"));
++	QCoreApplication::setApplicationVersion(QLatin1String(LC_VERSION_TEXT));
++
+ 	lcInitializeSurfaceFormat(argc, argv);
+ 
+ 	QCoreApplication::setAttribute(Qt::AA_ShareOpenGLContexts);

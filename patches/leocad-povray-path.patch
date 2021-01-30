@@ -1,0 +1,13 @@
+diff --git a/common/lc_profile.cpp b/common/lc_profile.cpp
+index d6faf331..4fc70c18 100644
+--- a/common/lc_profile.cpp
++++ b/common/lc_profile.cpp
+@@ -130,7 +130,7 @@ static lcProfileEntry gProfileEntries[LC_NUM_PROFILE_KEYS] =
+ 	lcProfileEntry("HTML", "ImageWidth", 640),                                                 // LC_PROFILE_HTML_IMAGE_WIDTH
+ 	lcProfileEntry("HTML", "ImageHeight", 480),                                                // LC_PROFILE_HTML_IMAGE_HEIGHT
+ 
+-	lcProfileEntry("POVRay", "Path", "/usr/bin/povray"),                                       // LC_PROFILE_POVRAY_PATH
++	lcProfileEntry("POVRay", "Path", "/app/bin/povray"),                                       // LC_PROFILE_POVRAY_PATH
+ 	lcProfileEntry("POVRay", "LGEOPath", ""),                                                  // LC_PROFILE_POVRAY_LGEO_PATH
+ 	lcProfileEntry("POVRay", "Width", 1280),                                                   // LC_PROFILE_POVRAY_WIDTH
+ 	lcProfileEntry("POVRay", "Height", 720),                                                   // LC_PROFILE_POVRAY_HEIGHT

@@ -17,6 +17,53 @@
     ],
     "modules": [
         {
+            "name": "povray",
+            "buildsystem": "simple",
+            "build-commands": [
+                "cd unix && ./prebuild.sh",
+                "./configure COMPILED_BY=https://flathub.org --prefix=${FLATPAK_DEST} --with-boost-libdir=${FLATPAK_DEST}/lib",
+                "make",
+                "make install"
+            ],
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "https://github.com/POV-Ray/povray.git",
+                    "tag": "v3.7.0.8",
+                    "commit": "908900d9c9634f609d2cd0aed35cbb3f7c07d36c"
+                },
+                {
+                    "type": "patch",
+                    "path": "patches/povray/0002-Autotool-massaging.patch"
+                },
+                {
+                    "type": "patch",
+                    "path": "patches/povray/0003-Remove-povuser.patch"
+                }
+            ],
+            "modules": [
+                {
+                    "name" : "boost",
+                    "buildsystem" : "simple",
+                    "cleanup" : [
+                        "/include",
+                        "/lib/libboost_*.a"
+                    ],
+                    "build-commands" : [
+                        "./bootstrap.sh --prefix=${FLATPAK_DEST} --with-libraries=date_time,thread",
+                        "./b2 install variant=release link=shared runtime-link=shared --prefix=/app -j $FLATPAK_BUILDER_N_JOBS"
+                    ],
+                    "sources" : [
+                        {
+                            "type" : "archive",
+                            "url" : "https://downloads.sourceforge.net/project/boost/boost/1.68.0/boost_1_68_0.tar.bz2",
+                            "sha256" : "7f6130bc3cf65f56a618888ce9d5ea704fa10b462be126ad053e80e553d6d8b7"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
             "name": "leocad",
             "buildsystem": "qmake",
             "config-opts": [
@@ -33,19 +80,23 @@
                 },
                 {
                     "type": "patch",
-                    "path": "appdata.patch"
+                    "path": "patches/appdata.patch"
                 },
                 {
                     "type": "patch",
-                    "path": "gl-fixes.patch"
+                    "path": "patches/gl-fixes.patch"
                 },
                 {
                     "type": "patch",
-                    "path": "gl-fixes2.patch"
+                    "path": "patches/gl-fixes2.patch"
                 },
                 {
                     "type": "patch",
-                    "path": "leocad-issue-610.patch"
+                    "path": "patches/leocad-issue-610.patch"
+                },
+                {
+                    "type": "patch",
+                    "path": "patches/leocad-povray-path.patch"
                 },
                 {
                     "type": "archive",

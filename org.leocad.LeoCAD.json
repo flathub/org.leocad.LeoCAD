@@ -105,8 +105,8 @@
                 }
             ],
             "post-install": [
-                "mkdir -p /app/share/icons/hicolor/scalable/apps",
-                "cp /app/share/icons/hicolor/scalable/mimetypes/application-vnd.leocad.svg /app/share/icons/hicolor/scalable/apps/leocad.svg",
+                "mv ${FLATPAK_DEST}/share/mime/packages/leocad.xml ${FLATPAK_DEST}/share/mime/packages/${FLATPAK_ID}.xml",
+                "cd ${FLATPAK_DEST}/share/icons/hicolor; for d in */mimetypes/; do for f in ${d}*; do mv \"$f\" \"${d}${FLATPAK_ID}.$(basename $f)\"; done; done",
                 "install -D library.bin ${FLATPAK_DEST}/share/leocad/library.bin"
             ]
         }

@@ -102,11 +102,17 @@
                     "type": "archive",
                     "url": "https://github.com/leozide/leocad/releases/download/v21.01/Library-20.03.zip",
                     "sha256": "88d6d28b3a494a15ae63e984c1e732e28362fabc2e145ffab828fed2eb5e3632"
+                },
+                {
+                    "type": "file",
+                    "url": "https://gitlab.com/sylvainls/lxf2ldr/-/raw/00f0a738c2858ff4bb1d591edcdf62d1ddd33177/common/ldraw.xml",
+                    "sha256": "9c63428369efbde066d47a4c91d2101903a89b4f35452474e33e776c0261e39c"
                 }
             ],
             "post-install": [
                 "mv ${FLATPAK_DEST}/share/mime/packages/leocad.xml ${FLATPAK_DEST}/share/mime/packages/${FLATPAK_ID}.xml",
                 "cd ${FLATPAK_DEST}/share/icons/hicolor; for d in */mimetypes/; do for f in ${d}*; do mv \"$f\" \"${d}${FLATPAK_ID}.$(basename $f)\"; done; done",
+                "install -D ldraw.xml ${FLATPAK_DEST}/share/leocad/ldraw.xml",
                 "install -D library.bin ${FLATPAK_DEST}/share/leocad/library.bin"
             ]
         }

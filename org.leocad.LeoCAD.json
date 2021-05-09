@@ -28,13 +28,8 @@
             "sources": [
                 {
                     "type": "git",
-                    "url": "https://github.com/POV-Ray/povray.git",
-                    "tag": "v3.7.0.8",
-                    "commit": "908900d9c9634f609d2cd0aed35cbb3f7c07d36c"
-                },
-                {
-                    "type": "patch",
-                    "path": "patches/povray/0002-Autotool-massaging.patch"
+                    "url": "https://github.com/leozide/povray.git",
+                    "commit": "c65ef9d0c931c8e7844c3ae403b5a53c881fc33f"
                 },
                 {
                     "type": "patch",

@@ -70,16 +70,12 @@
 		{
 		    "type": "git",
 		    "url": "https://github.com/leozide/leocad.git",
-		    "tag": "v21.03",
-		    "commit": "6ef3fe5500a2e0b0d72cd5c3edf0a07574ebcf59"
-                },
-                {
-                    "type": "patch",
-                    "path": "patches/appdata.patch"
+		    "tag": "v21.06",
+		    "commit": "aa0106eedb64ce3a8efb865c3d4c51245718f758"
                 },
                 {
                     "type": "archive",
-                    "url": "https://github.com/leozide/leocad/releases/download/v21.03/Library-20.03.zip",
+                    "url": "https://github.com/leozide/leocad/releases/download/v21.06/Library-20.03.zip",
                     "sha256": "88d6d28b3a494a15ae63e984c1e732e28362fabc2e145ffab828fed2eb5e3632"
                 },
                 {

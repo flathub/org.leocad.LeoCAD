@@ -1,7 +1,7 @@
 {
     "id": "org.leocad.LeoCAD",
     "runtime": "org.kde.Platform",
-    "runtime-version": "5.15-22.08",
+    "runtime-version": "5.15-23.08",
     "sdk": "org.kde.Sdk",
     "command": "leocad",
     "rename-icon": "leocad",
@@ -81,8 +81,8 @@
                 },
                 {
                     "type": "archive",
-                    "url": "https://github.com/leozide/leocad/releases/download/v23.03/Library-23.01.zip",
-                    "sha256": "4f864ba05417ee0889b47706ea0b6a99dc8bfc3a52c9899a5b3b141cdfba970b"
+                    "url": "https://github.com/leozide/leocad/releases/download/v23.03/Library-23.06.zip",
+                    "sha256": "ef29c1e0fc989c9e9894072f43ae0030a5274c0cdcc831bc6c206bbe059f449b"
                 },
                 {
                     "type": "file",

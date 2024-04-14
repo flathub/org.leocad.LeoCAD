@@ -7,6 +7,10 @@
     "rename-icon": "leocad",
     "rename-desktop-file": "leocad.desktop",
     "rename-appdata-file": "leocad.appdata.xml",
+    "rename-mime-file": "leocad.xml",
+    "rename-mime-icons": [
+        "application-vnd.leocad"
+    ],
     "finish-args": [
         "--device=dri",
         "--share=ipc",
@@ -67,8 +71,6 @@
                 "INSTALL_PREFIX=/app"
             ],
             "post-install": [
-                "mv ${FLATPAK_DEST}/share/mime/packages/leocad.xml ${FLATPAK_DEST}/share/mime/packages/${FLATPAK_ID}.xml",
-                "cd ${FLATPAK_DEST}/share/icons/hicolor; for d in */mimetypes/; do for f in ${d}*; do mv \"$f\" \"${d}${FLATPAK_ID}.$(basename $f)\"; done; done",
                 "install -D ldraw.xml ${FLATPAK_DEST}/share/leocad/ldraw.xml",
                 "install -D library.bin ${FLATPAK_DEST}/share/leocad/library.bin"
             ],

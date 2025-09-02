@@ -78,13 +78,13 @@
 		{
 		    "type": "git",
 		    "url": "https://github.com/leozide/leocad.git",
-		    "tag": "v23.03",
-		    "commit": "697e89b1290bcb244b3c17feb1a9420f707132ad"
+		    "tag": "v25.09",
+		    "commit": "b497b32592809a64d7ed741882a12ef83b1c42a7"
                 },
                 {
                     "type": "archive",
-                    "url": "https://github.com/leozide/leocad/releases/download/v23.03/Library-23.06.zip",
-                    "sha256": "ef29c1e0fc989c9e9894072f43ae0030a5274c0cdcc831bc6c206bbe059f449b"
+                    "url": "https://github.com/leozide/leocad/releases/download/v25.09/Library-25.08.zip",
+                    "sha256": "848404645811b00128eb20203b3706a6f2fb8ee68a214debc820f4384dab76ed"
                 },
                 {
                     "type": "patch",

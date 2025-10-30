@@ -1,7 +1,7 @@
 {
     "id": "org.leocad.LeoCAD",
     "runtime": "org.kde.Platform",
-    "runtime-version": "5.15-24.08",
+    "runtime-version": "5.15-25.08",
     "sdk": "org.kde.Sdk",
     "command": "leocad",
     "rename-icon": "leocad",
@@ -19,15 +19,17 @@
         "--env=TMPDIR=/var/tmp",
         "--env=QT_ENABLE_HIGHDPI_SCALING=1"
     ],
+    "cleanup": [
+        "/share/doc",
+        "/share/man"
+    ],
     "modules": [
         {
             "name": "povray",
-            "buildsystem": "simple",
-            "build-commands": [
-                "cd unix && ./prebuild.sh",
-                "./configure COMPILED_BY=https://flathub.org --prefix=${FLATPAK_DEST} --with-boost-libdir=${FLATPAK_DEST}/lib",
-                "make",
-                "make install"
+            "buildsystem": "autotools",
+            "config-opts": [
+                "COMPILED_BY=https://flathub.org",
+                "--with-boost-libdir=/app/lib"
             ],
             "sources": [
                 {
@@ -38,6 +40,12 @@
                 {
                     "type": "patch",
                     "path": "patches/povray/0003-Remove-povuser.patch"
+                },
+                {
+                    "type": "shell",
+                    "commands": [
+                        "cd unix && ./prebuild.sh"
+                    ]
                 }
             ],
             "modules": [

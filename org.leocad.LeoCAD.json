@@ -1,7 +1,7 @@
 {
     "id": "org.leocad.LeoCAD",
     "runtime": "org.kde.Platform",
-    "runtime-version": "5.15-25.08",
+    "runtime-version": "6.11",
     "sdk": "org.kde.Sdk",
     "command": "leocad",
     "rename-icon": "leocad",
@@ -14,10 +14,10 @@
     "finish-args": [
         "--device=dri",
         "--share=ipc",
-        "--socket=x11",
+        "--socket=fallback-x11",
+        "--socket=wayland",
         "--filesystem=home",
-        "--env=TMPDIR=/var/tmp",
-        "--env=QT_ENABLE_HIGHDPI_SCALING=1"
+        "--env=TMPDIR=/var/tmp"
     ],
     "cleanup": [
         "/share/doc",
@@ -57,7 +57,7 @@
                         "/lib/libboost_*.a"
                     ],
                     "build-commands" : [
-                        "./bootstrap.sh --prefix=${FLATPAK_DEST} --with-libraries=date_time,thread",
+                        "./bootstrap.sh --prefix=${FLATPAK_DEST} --with-libraries=thread",
                         "./b2 install variant=release link=shared runtime-link=shared --prefix=/app -j $FLATPAK_BUILDER_N_JOBS"
                     ],
                     "sources" : [
@@ -86,13 +86,13 @@
 		{
 		    "type": "git",
 		    "url": "https://github.com/leozide/leocad.git",
-		    "tag": "v25.09",
-		    "commit": "b497b32592809a64d7ed741882a12ef83b1c42a7"
+		    "tag": "v26.09",
+		    "commit": "5196355d4a5adb35f14c97e7672d7a9bfd3af391"
                 },
                 {
                     "type": "archive",
-                    "url": "https://github.com/leozide/leocad/releases/download/v25.09/Library-25.08.zip",
-                    "sha256": "848404645811b00128eb20203b3706a6f2fb8ee68a214debc820f4384dab76ed"
+                    "url": "https://github.com/leozide/leocad/releases/download/v26.09/Library-26.08.zip",
+                    "sha256": "7cddc89e0437555c317a0e663df73b0e73da2297939eebf8a199308ddad5ed76"
                 },
                 {
                     "type": "patch",
@@ -100,8 +100,8 @@
                 },
                 {
                     "type": "file",
-                    "url": "https://gitlab.com/sylvainls/lxf2ldr/-/raw/00f0a738c2858ff4bb1d591edcdf62d1ddd33177/common/ldraw.xml",
-                    "sha256": "9c63428369efbde066d47a4c91d2101903a89b4f35452474e33e776c0261e39c"
+                    "url": "https://gitlab.com/sylvainls/lxf2ldr/-/raw/7a7e555c73cd312bb1039160d707d3d079427717/common/ldraw.xml",
+                    "sha256": "3c7f9113d8fb50705be52784a38a799516c3c8d3209dbdf1cd7dea3f3e422753"
                 }
             ]
         }
